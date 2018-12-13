@@ -24,8 +24,10 @@ int get_ldr(void) {
 	int low = ADCL;
 	int high = ADCH;
 
-	return ((high << 2) | (low >> 6));
+	return ((high << 2) | (low >> 6)); // Don't need all 10 bits here?
 }
+
+/* Builds a 16-bit int from polling the ADC's LSB */
 
 int build_seed(void) {
 	uint16_t seed = 0;
@@ -43,7 +45,7 @@ int get_rand(int max) {
 	srand(seed);
 	int n = rand();
 		
-	return (n % max) + 1;
+	return (n % max) + 1; // Better way to this? Modulo is very big
 }
 
 int main(void) {
@@ -52,14 +54,18 @@ int main(void) {
 	lcd_init();
 
 	char result[5];
+	int line = 0;
 		
 	while(1) {
+		/* Temporary output for debugging */
 		for(int i = 0; i < 16; i++) {
 			itoa(get_rand(6), result, 10);
 			lcd_puts(result);
 			_delay_ms(50);
 		}
-		lcd_newline();
+		if(!line) lcd_cmd(LCD_LINE_2);                /* This is really bad      */
+		else{ lcd_cmd(0x01); lcd_cmd(LCD_LINE_1); }   /* Please change this soon */
+		line = !line;
 	}
 
 	return 1;
