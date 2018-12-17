@@ -13,9 +13,10 @@ void gen_rolls(int amt, int sides) {
 */
 
 void gen_rolls(int amt, int sides) {
-	char rolls[amt];
+	char result[2];
 	for (; amt > 0; --amt) {
-		rolls[amt] = get_rand(sides);	
+		itoa(get_rand(sides), result, 10);
+		lcd_puts(result);
+		lcd_putc(' ');
 	}
 }
-

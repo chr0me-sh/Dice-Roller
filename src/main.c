@@ -5,7 +5,7 @@ int main(void) {
 	lcd_io_init();
 	lcd_init();
 
-	gen_rolls(5, 8);
+	gen_rolls(8, 6);
 
 	while (1) {
 

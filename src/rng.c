@@ -26,10 +26,10 @@ int get_adc(void) {
 
 int build_seed(void) {
 	int n;
-	int seed;
-	for (int i = 0; i < 16; ++i) {
+	int seed = (0x01 & get_adc());
+	for (int i = 0; i < 15; ++i) {
 		n = (0x01 & get_adc());
-		seed = !seed ? (seed << 1) | n : n;
+		seed = (seed << 1) | n;
 		_delay_ms(50);
 	}
 	return seed;
