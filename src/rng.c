@@ -13,6 +13,8 @@ void adc_init(void) {
 	ADCSRA |= (1 << ADSC);
 }
 
+/* Returns the LSB of the current ADC value */
+
 int get_adc(void) {
 	int low = ADCL;
 	int high = ADCH;
@@ -24,10 +26,10 @@ int get_adc(void) {
 
 int build_seed(void) {
 	int n;
-	uint16_t seed = get_adc(); // Sets the seed to ADC's LSB, then adds 15 more bits. Change this?
-	for (int i = 0; i < 15; i++) {
+	int seed;
+	for (int i = 0; i < 16; ++i) {
 		n = (0x01 & get_adc());
-		seed = (seed << 1) | n;
+		seed = !seed ? (seed << 1) | n : n;
 		_delay_ms(50);
 	}
 	return seed;

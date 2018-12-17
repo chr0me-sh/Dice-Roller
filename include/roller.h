@@ -9,4 +9,5 @@ void adc_init(void);
 int get_adc(void);
 int build_seed(void);
 int get_rand(int);
+void gen_rolls(int, int);
 

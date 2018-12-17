@@ -1,5 +1,5 @@
 VPATH = src
-TGT = roller
+TGT = diceroller
 
 MMC = atmega328p
 F_CPU = 16000000L
@@ -20,7 +20,7 @@ FL = avrdude
 FFLAGS = -c $(PRG) -p $(MMC) -P $(DEV) -e
 
 .PHONY: clean flash compile all
-.INTERMEDIATE: $(TGT).hex
+.INTERMEDIATE: $(TGT).hex $(TGT).elf
 
 all: flash
 
@@ -32,5 +32,5 @@ flash: $(TGT).hex
 %.hex: %.elf
 	$(OC) $(OFLAGS) $< $@
 
-%.elf: %.c
-	$(CC) $< $(CFLAGS) $(CPPFLAGS) -o $@
+$(TGT).elf: main.c rng.c core.c
+	$(CC) $^ $(CFLAGS) $(CPPFLAGS) -o $@
